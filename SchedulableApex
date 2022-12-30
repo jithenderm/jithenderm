@@ -1,0 +1,38 @@
+global class DailyLeadProcessor implements schedulable{
+    global void execute (schedulableContext sc){
+        list<lead> listoflead = [select id from Lead where Leadsource = null limit 200];
+        
+        list<lead>listofupdatedlead = new list<lead>();
+        if(!listoflead.isempty()){
+            for(lead ld : listoflead){
+                ld.leadsource = 'Dreamforce';
+                listofupdatedlead.add(ld);
+            }
+            update listofupdatedlead;
+        }
+    }
+
+}
+
+@isTest
+private class DailyLeadProcessTest{
+    @testsetup
+    static void setup(){
+        List<Lead> ListofLead = new List<Lead>();
+        for(integer i = 1; i<=200; i++){
+            Lead ld = new Lead(company='comp'+i,Lastname = 'LN'+i,status = 'working-contacted');
+            ListofLead.add(Ld);
+        }
+        insert ListofLead;
+    }
+    static testmethod void testDailyLeadProcessorschduledjob(){
+        string sch = '0 5 12 * * ?';
+        Test.startTest();
+        string jobid = system.schedule('schduledapextext',sch,new DailyLeadProcessor());
+        
+        List<Lead> ListofLead = [select id from Lead where Leadsource = null limit 200];
+        system.assertequals(200,ListofLead.size());
+        Test.stopTest();
+    }
+
+}
