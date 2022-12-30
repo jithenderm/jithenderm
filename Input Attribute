@@ -1,0 +1,35 @@
+<aura:component >
+    <aura:attribute name="Amount" type="Decimal" />
+    <aura:attribute name="Years" type="Decimal" />
+    <aura:attribute name="Rate" type="Decimal" />
+    <aura:attribute name="intrest" type="Decimal" />
+    <lightning:input label="Enter Amount" type="number" value="{!v.amount}" />
+    <lightning:input label="Enter Years" type="number" value="{!v.Years}" />
+    <lightning:input label="Enter Rate" type="number" value="{!v.Rate}" />
+    <lightning:button label="Submit" onclick="{!c.calculate}" />
+    <br/><br/><br/>
+    <div>
+        Amount  : {!v.amount} <br/>
+        Years   : {!v.Years}  <br/>
+        Rate    : {!v.Rate}   <br/>
+        intrest : {!v.intrest} 
+    </div>
+    
+</aura:component>
+
+
+({
+	calculate : function(component, event, helper) {
+        var amount=component.get("v.amount");
+        var years=component.get("v.years");
+        var rate=component.get("v.rate");
+        var intrest=(amount*years*rate)/100;
+        component.set("v.intrest",intrest);
+		
+	}
+})
+
+
+<aura:application extends="force:slds">
+    <c:Input_Attribute_Example_1 />
+</aura:application>
