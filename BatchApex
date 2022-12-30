@@ -1,0 +1,46 @@
+global class LeadProcessor implements Database.batchable<sobject>{
+    global integer count = 0;
+    
+    global Database.QueryLocator start(Database.BatchableContext bc){
+        return Database.getQueryLocator('select id,leadsource from Lead');
+    }
+    global void execute(Database.Batchablecontext bc,list<lead> L_list){
+        list<lead> L_list_new = new list<lead>();
+        for(lead L : L_list){
+            L.leadsource = 'Dreamforce';
+            L_list_new.add(L);
+            count +=1;
+        }
+        update L_List_new;
+    }
+    global void finish(Database.Batchablecontext bc){
+        system.debug('count='+count);
+    }
+    
+    
+
+}
+
+
+@isTest
+public class LeadProcessorTest {
+    
+    public static testmethod void LeadProcessor(){
+        List<lead> L_list = new List<lead>();
+        
+        for(integer i=0;i<200;i++){
+            Lead L = new Lead();
+            L.Lastname = 'name'+i;
+            L.Company = 'company';
+            L.status = 'Random status';
+            L_list.add(L);
+        }
+        insert L_list;
+        
+        Test.startTest();
+        LeadProcessor lp = new LeadProcessor();
+        id batchid = Database.executebatch(lp);
+        Test.stopTest();
+    }
+
+}
