@@ -1,0 +1,31 @@
+<aura:component >
+    <aura:attribute name="aval" type="integer" />
+    <aura:attribute name="bval" type="integer" />
+    <aura:attribute name="cval" type="integer" />
+    <lightning:input label="Enter aval" type="number" value="{!v.aval}" />
+    <lightning:input label="Enter bval" type="number" value="{!v.bval}" />
+    <lightning:input label="Result" type="number" value="{!v.cval}" />
+    <lightning:button label="sum" onclick="{!c.add}" />
+    <lightning:button label="mul" onclick="{!c.mul}" />                                                                    
+</aura:component>
+
+({
+	add : function(component, event, helper) {
+		var aval=component.get("v.aval");
+        var bval=component.get("v.bval");
+        var result=parseInt(aval)+parseInt(bval);
+        component.set("v.cval",result);
+        
+        
+	},
+    mul : function(component, event, helper) {
+		var aval=component.get("v.aval");
+        var bval=component.get("v.bval");
+        var result=parseInt(aval)*parseInt(bval);
+        component.set("v.cval",result);
+    }    
+})
+
+<aura:application extends="force:slds">
+    <c:calculate_Example_1 />
+</aura:application>
