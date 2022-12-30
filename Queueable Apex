@@ -1,0 +1,35 @@
+public class AddPrimaryContact implements Queueable{
+    
+    private contact c;
+    private string state;
+    public AddPrimaryContact(contact c,string state){
+        this.c = c;
+        this.state = state;
+    }
+    public void execute(Queueablecontext context){
+        List<account> Listaccount = [select id,name,(select id,firstname,lastname from contacts)from account where Billingstate=:state limit 200];
+        List<contact>lstcontact = new List<contact>();
+        for(account acc:Listaccount){
+            contact cont = c.clone(false,false,false,false);
+            cont.Accountid = acc.id;
+            lstcontact.add(cont);
+        }
+        if(lstcontact.size()>0){
+            insert lstcontact;
+        }
+    }
+
+}
+
+@isTest
+public class AddPrimaryContactTest {
+   
+    static testmethod void testQueueable(){
+        List<account> testaccounts = new list<account>();
+        for(integer i=0;i<50;i++){
+            testaccounts.add(new account(Name='Account'+i,Billingstate = 'CA'));
+        }
+        for(integer j=0;j<50;j++){
+            testaccounts.add(new account(Name = 'Account'+j,Billingstate = 'NY'));
+        }
+        insert testaccounts;
