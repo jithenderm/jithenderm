@@ -1,0 +1,47 @@
+//outer class
+public class somesobjectimplementations
+{
+	public void dosomething(){
+		system.debug('Am a normal method');
+	}
+
+	public string dosomethingtoreturn(){
+		return 'am a normal return type method';
+	}
+
+	public contact docontactrectoreturn(){
+		contact c=new contact();
+		return c;
+	}
+	public List<Account> doreturnallaccount()
+	{
+		list<account> accountlist=[select id,name from account];
+		return accountlist;
+	}
+
+	//variation starts
+	public amwrapperclass dosomethingwrapper()
+	{
+		string somename='swhiz technologies..';
+		Account a=new account();
+		a.name='testacc';
+		a.phone='787887878787';
+		insert a;
+		List<Account> accountlist=[select id,name from account];
+		amwrapperclass wrpobj = new amwrapperclass();
+		wrpobj.namevar=somename;
+		wrpobj.acc=a;
+		wrpobj.acclist=accountlist;
+
+		return wrpobj;
+	}
+
+	//inner class
+	public class amwrapperclass
+	{
+		public string namevar;
+		public account acc;
+		public List<Account> acclist;
+	}
+		
+}
