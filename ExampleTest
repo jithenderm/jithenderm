@@ -1,0 +1,121 @@
+public class Apex_Example_1 {
+    public string name;
+    public string city;
+    public void callme(){
+        name = 'pavan';
+        city = 'HYD';
+    }
+
+}
+
+
+@isTest
+public class Apex_Example_1_Test {
+    @isTest
+    public static void testme(){
+        Apex_Example_1 obj = new Apex_Example_1();
+        obj.callme();
+        system.assertequals('pavan',obj.name);
+        system.assertequals('HYD',obj.city);
+    }
+
+}
+
+=============================================================================================================================================================================================
+public class Apex_example_2 {
+    public string industry;
+    public string rating;
+    public string ownership;
+    public void callme(){
+        industry='banking';
+        rating='hot';
+        ownership='public';
+    }
+      
+}
+
+@isTest
+public class Apex_example_2_Test {
+    
+    public static testmethod void callme(){
+        Apex_example_2 obj = new Apex_example_2();
+        obj.callme();
+        system.assertequals('banking',obj.industry);
+        system.assertequals('hot',obj.rating);
+        system.assertequals('public',obj.ownership);
+    }
+
+}
+
+=============================================================================================================================================================================================
+
+public class Apex_example_3 {
+    public string industry;
+    public string rating;
+    public decimal amount;
+    public void callme(){
+        if(industry=='banking'){
+            rating ='hot';
+            amount = 100000;
+        }else{
+            rating = 'warm';
+            amount = 500000;
+        }
+    }
+
+}
+
+@isTest
+public class Apex_Example_3_Test {
+  @isTest
+    public static void testme(){
+        Apex_Example_3 obj = new Apex_Example_3();
+        obj.industry = 'banking';
+        obj.callme();
+        system.assertequals('hot',obj.rating);
+        system.assertequals(100000,obj.amount);
+        obj.industry = 'energy';
+        obj.callme();
+        system.assertequals('warm',obj.rating);
+        system.assertequals(500000,obj.amount);
+    }
+
+}
+
+=============================================================================================================================================================================================
+
+public class Apex_example_4 {
+    
+    public string lastname;
+    public string firstname;
+    public string Leadsource;
+    
+    public void show(){
+        if(Leadsource=='Web'){
+            lastname = 'pavan';
+            firstname = 'kumar';
+        }else{
+            lastname = 'rama';
+            firstname = 'chandra';
+        }
+    }
+
+}
+
+@isTest
+public class Apex_example_4_Test {
+    @isTest
+    public static void Testme(){
+        Apex_example_4 obj = new Apex_example_4();
+        obj.Leadsource='web';
+        obj.show();
+        system.assertequals('pavan',obj.lastname);
+        system.assertequals('kumar',obj.firstname);
+        obj.Leadsource='email';
+        obj.show();
+        system.assertequals('rama',obj.lastname);
+        system.assertequals('chandra',obj.firstname);
+        
+    }
+
+}
