@@ -1,0 +1,65 @@
+public class basicapexclass
+
+{
+    //variable declaration
+    public string name='Business prospect account';
+    
+    //this method will create a account record from backend
+    public void tocreateaccount(){
+        String phonenumber='95959595995';
+        Account a = new Account();
+        a.name=name;
+        a.phone=phonenumber;
+        insert a;
+        system.debug('Account record:'+a);
+    }
+    
+    //create an account record with multiple contact records that must be associated to account
+    
+    public void accountwithcontacts(integer sizeparamvar){
+        String phonenumber='9595959595';
+        if(String.isnotblank(name) && String.isnotblank(Phonenumber)){
+            //account data
+            Savepoint sp=Database.setSavepoint();
+            Account accountrecord=new Account();
+            accountrecord.name=name;
+            accountrecord.phone=phonenumber;
+            insert accountrecord;
+            system.debug('Account record::'+accountrecord);
+            if(accountrecord.id != null){
+                //contacts data
+                List<Contact> conlist=new List<Contact>();
+                for(Integer i=0;i<sizeparamvar;i++){
+                    contact c=new contact();
+                    c.FirstName=accountrecord.name;
+                    c.lastname='_'+system.today();
+                    c.accountid=accountrecord.id;
+                    conlist.add(c);
+                }
+                try{
+                    database.insert(conlist,true);
+                    getTodayrecords(accountrecord);
+                }catch(Exception e){
+                    system.debug('Error'+e);
+                    database.rollback(sp);
+                }
+            }
+        }
+    }
+    
+    //this method will retriew account and their contacts info
+    public void getTodayrecords(Account acc){
+        if(acc.id == null){
+            return; //it will comeout from the method
+        }
+        List<Contact> conlist=[select id, accountid, firstname, lastname from contact where accountid=: acc.id];
+        for (contact c:conlist){
+            system.debug('contact record::'+c);
+        }
+        
+        for(Contact cx: [select id,accountid, firstname, lastname from contact where accountid=:acc.id])
+        {
+            system.debug('contact record2 ::' +cx);
+        }
+    }
+}
